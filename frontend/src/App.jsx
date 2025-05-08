@@ -1,27 +1,22 @@
-import {useEffect, useState} from 'react';
-import axios from 'axios';
+import Home from '@components/pages/Home';
+import SignIn from '@components/pages/SignIn';
+import SignUp from '@components/pages/SignUp';
+import OldNavBar from '@components/Home/OldNavBar';
+import Layout from '@components/Layout';
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 
 const App = () => {
-  const [message, setMessage] = useState('Loading...');
-
-  useEffect(() => {
-    axios.get('http://127.0.0.1:8000/test')
-    .then(res => {
-      console.log(res.data);
-      setMessage(res.data.message);
-    })
-    .catch(err => {
-      console.error(err);
-    });
-  }, []);
-
   return (
-    <div className='App'>
-      <h1>Test Connection</h1>
-      <p>{message}</p>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
+        </Route>
+      </Routes>
+    </Router>
   )
 }
-
 
 export default App;
