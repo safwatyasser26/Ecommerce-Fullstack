@@ -1,10 +1,10 @@
 
 const Header = ({ label, title, showArrows = false }) => {
     return (
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex justify-between items-center mt-14">
           <div>
             <div className="flex items-center gap-2">
-              <div className="w-2 h-4 bg-red-500 rounded-sm" />
+              <div className="w-5 h-10 bg-[#DB4444] rounded-sm text-xl font-bold" />
               <span className="text-sm text-red-500 font-medium">{label}</span>
             </div>
             <h2 className="text-xl font-bold mt-1">{title}</h2>

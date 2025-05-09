@@ -2,6 +2,7 @@ import { useState } from "react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
 const OldSideBar = () => {
+  const [isMobile, setIsMobile] = useState(false);
   const categories = [
     {
       name: "Women's Fashion",
@@ -48,7 +49,10 @@ const OldSideBar = () => {
   };
 
   return (
-    <aside className="w-55 pt-10 overflow-y-auto overflow-x-none no-scrollbar pr-4 shadow-[1px_0px_0px_0px_rgba(0,0,0,0.1)]">
+    <aside className="w-55 pt-10 overflow-y-auto overflow-x-none no-scrollbar pr-4"
+    style={{
+      boxShadow: '1px 0px 0px rgba(0, 0, 0, 0.1)' // x-offset = right
+    }}>
       <ul className="space-y-1">
         {categories.map((category, index) => (
           <li key={index} className="cursor-pointer">

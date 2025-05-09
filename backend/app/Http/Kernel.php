@@ -6,7 +6,23 @@ use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
 {
-    
+    /**
+     * The application's route middleware groups.
+     *
+     * @var array
+     */
+    protected $middlewareGroups = [
+        'web' => [
+            // ...existing middleware...
+        ],
+
+        'api' => [
+            // Add Sanctum middleware here
+            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+            'throttle:api',
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        ],
+    ];
 
     /**
      * Route middleware.
@@ -34,7 +50,5 @@ class Kernel extends HttpKernel
 
         // Verify email
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-
-
     ];
 }

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 
-const CountDownTimer = ({ targetDate }) => {
+const Timer = ({ targetDate }) => {
   const calculateTimeLeft = () => {
     const difference = new Date(targetDate) - new Date();
-    if (difference <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+    if (difference <= 0) return { expired: true, days: 0, hours: 0, minutes: 0, seconds: 0 };
 
     return {
+      expired: false,
       days: Math.floor(difference / (1000 * 60 * 60 * 24)),
       hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
       minutes: Math.floor((difference / 1000 / 60) % 60),
@@ -20,12 +21,7 @@ const CountDownTimer = ({ targetDate }) => {
       const newTime = calculateTimeLeft();
       setTimeLeft(newTime);
 
-      if (
-        newTime.days === 0 &&
-        newTime.hours === 0 &&
-        newTime.minutes === 0 &&
-        newTime.seconds === 0
-      ) {
+      if (newTime.expired) {
         clearInterval(timer);
       }
     }, 1000);
@@ -54,6 +50,14 @@ const CountDownTimer = ({ targetDate }) => {
     </div>
   );
 
+  if (timeLeft.expired) {
+    return (
+      <div className="flex justify-center items-center p-4 text-red-600 text-2xl font-bold">
+        Discount expired
+      </div>
+    );
+  }
+
   return (
     <div className="flex space-x-4 justify-center items-center p-4">
       <TimeBlock label="Days" value={timeLeft.days} />
@@ -67,4 +71,4 @@ const CountDownTimer = ({ targetDate }) => {
   );
 };
 
-export default CountDownTimer;
+export default Timer;
