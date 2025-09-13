@@ -14,7 +14,7 @@ import OfferImage from "@/assets/offer.png";
 
 import Playstation from "@/assets/playstation.png";
 import Perfume from "@/assets/perfume.png";
-import Speakers from "@/assets/Speakers.png";
+
 import Womens from "@/assets/womens.png";
 
 const MainHome = () => {
@@ -56,7 +56,7 @@ const MainHome = () => {
              <div className="grid grid-cols-4 gap-4 md:gap-8">
                 <div className="col-span-2 row-span-2"><Image alt="image" src={Playstation} className="object-cover"/></div>
                 <div className="col-span-2 row-span-1"><Image alt="image" src={Womens} className="object-cover"/></div>
-                <div className="col-span-1 row-span-1"><Image alt="image" src={Speakers} className="object-cover"/></div>
+                <div className="col-span-1 row-span-1"><Image alt="image" src={Perfume} className="object-cover"/></div>
                 <div className="col-span-1 row-span-1"><Image alt="image" src={Perfume} className="object-cover"/></div>
              </div>
         </section>
