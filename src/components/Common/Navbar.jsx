@@ -1,5 +1,9 @@
 "use client"
+import {useRouter} from "next/navigation";
+import useSearchStore from "@/store/searchStore";
 import { useState } from "react";
+
+import {useSession, signIn, signOut} from "next-auth/react";
 
 import {
     FiSearch,
@@ -11,11 +15,25 @@ import {
 } from "react-icons/fi";
 
 import Link from "next/link";
-
+import Image from "next/image";
+import DropDownMenu from "@/components/Common/DropDownMenu";
 const Navbar = () => {
+    const router = useRouter();
+    const {data:session, status} = useSession();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
+    const [isOpen, setIsOpen] = useState(false);
+    
     const closeMobileMenu = () => setIsMobileMenuOpen(false);
+    const handleDropDownMenu = (e) => setIsOpen(!e);
+    const setSearchTerm = useSearchStore((state) => state.setSearchTerm);
+  const [input, setInput] = useState("");
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setSearchTerm(input);
+    router.push("/search");
+  };
+    
 
     return (
         <header className="shadow-sm w-full z-50 pt-8 pb-4 bg-white">
@@ -38,7 +56,7 @@ const Navbar = () => {
                             About
                             <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-black transition-all group-hover:w-full"></span>
                         </Link>
-                        <Link href="/signup" className="relative group">
+                        <Link href="/api/auth/signin" className="relative group">
                             Sign Up
                             <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-black transition-all group-hover:w-full"></span>
                         </Link>
@@ -51,19 +69,36 @@ const Navbar = () => {
                             type="text"
                             placeholder="What are you looking for?"
                             className="w-64 pl-5 pr-3 py-2 rounded-sm bg-gray-100 text-gray-600"
+                            value={input}
+                            onChange={(e)=>setInput(e.target.value)}
+                            onKeyDown={
+                                (e) => {
+                                    if (e.key === "Enter") {
+                                        e.preventDefault();
+                                        setSearchTerm(input);
+                                        router.push("/search");
+                                       
+                                    }
+                                }
+                            }
                         />
                         <button>
                             <FiSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xl" />
                         </button>
                     </div>
-                    <Link href="/favorite">
+                    <Link href="/cart">
                         <FiHeart className="text-2xl" />
                     </Link>
                     <Link href="/cart">
                         <FiShoppingCart className="text-2xl" />
                     </Link>
                     <Link href="/api/auth/signin">
-                        <FiUser className="text-2xl" />
+                        {session ? 
+                        <div className="relative">
+                            <Image src={session.user.image} alt="profile" width={24} height={24} className="rounded-full" />
+                            <DropDownMenu open={isOpen}/>
+                        </div>
+                         : <FiUser className="text-2xl" />}
                     </Link>
                 </div>
                 {/* Mobile Menu Button */}
@@ -86,6 +121,17 @@ const Navbar = () => {
                              type="text"
                              placeholder="What are you looking for?"
                              className="w-full pl-5 pr-10 py-2 rounded-sm bg-gray-100 text-gray-600 focus:outline-none"
+                             value={input}
+                             onChange={(e)=>setInput(e.target.value)}
+                             onKeyDown={
+                                (e) => {
+                                    if (e.key === "Enter") {
+                                        e.preventDefault();
+                                        setSearchTerm(input);
+                                        router.push("/search");
+                                    }
+                                }
+                            }
                          />
                           <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
                              <FiSearch className="text-xl" />
@@ -107,9 +153,9 @@ const Navbar = () => {
                          <Link href="/cart" onClick={closeMobileMenu}>
                              <FiShoppingCart className="text-2xl" />
                          </Link>
-                          <Link href="/signin" onClick={closeMobileMenu}>
+                          <button onClick={() => SignIn()}>
                              <FiUser className="text-2xl" />
-                         </Link>
+                          </button>
                      </div>
                  </div>
              </div>
